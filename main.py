@@ -7,11 +7,16 @@ class Calculator(QWidget):
     def __init__(self, parent = None):
         super(Calculator, self).__init__(parent)
 
-        self.screenValue = 0
-        self.memoryNum = 0
-        self.num_2 = 0
+        self.resultValue = 0
+        self.memoryValue = 0
+        self.putinNum = 0
         self.isNumAppendModel = True
         self.initUI()
+        print('KEY\t记忆\t显示')
+        self.showState()
+
+    def showState(self):
+        print('\t%s\t%s'%(self.memoryValue, self.resultValue))
 
     def initUI(self):
         self.lcdScreen = QLCDNumber()
@@ -20,12 +25,15 @@ class Calculator(QWidget):
 
         btn_1 = QPushButton('1')
         btn_2 = QPushButton('2')
+        btn_3 = QPushButton('3')
+
         btn_plus = QPushButton('+')
         btn_equal = QPushButton('=')
         btn_CE = QPushButton('CE')
 
         btn_1.clicked.connect(lambda :self.numBtnPressed(1))
         btn_2.clicked.connect(lambda :self.numBtnPressed(2))
+        btn_3.clicked.connect(lambda :self.numBtnPressed(3))
         btn_plus.clicked.connect(lambda :self.operatorBtn('+'))
         btn_equal.clicked.connect(self.getResult)
         btn_CE.clicked.connect(self.screenClear)
@@ -33,9 +41,10 @@ class Calculator(QWidget):
         btnGridLayout = QGridLayout()
         btnGridLayout.addWidget(btn_1, 0, 0)
         btnGridLayout.addWidget(btn_2, 0, 1)
-        btnGridLayout.addWidget(btn_plus, 0, 2)
-        btnGridLayout.addWidget(btn_equal, 0, 3)
-        btnGridLayout.addWidget(btn_CE, 1, 0)
+        btnGridLayout.addWidget(btn_3, 0,2)
+        btnGridLayout.addWidget(btn_plus, 0, 3)
+        btnGridLayout.addWidget(btn_equal, 1, 0)
+        btnGridLayout.addWidget(btn_CE, 1, 1)
 
 
         mainLayout = QVBoxLayout()
@@ -45,51 +54,22 @@ class Calculator(QWidget):
         self.setLayout(mainLayout)
 
     def numBtnPressed(self, num):
-        if self.lcdScreen.checkOverflow(self.screenValue * 10 + num) == False:
-            self.screenValue = self.screenValue * 10 + num
-
-        self.updateScreen()
-        print('%s 键被按下,显示值为%s,记忆值为%s'%(num, self.screenValue, self.memoryNum))
+        pass
 
 
     def operatorBtn(self, btn_name):
+        pass
 
-        self.isNumAppendModel = False
-        self.memoryNum = self.screenValue
-        print('记忆值为%s'%self.memoryNum)
-        self.screenValue = 0
-        if btn_name == '+':
-            pass
-        self.isNumAppendModel = True
-        print('Btn %s 被按下, 记忆值变为%s' % (btn_name, self.memoryNum))
 
     def getResult(self):
-
-        self.isNumAppendModel = False
-        print('%s + %s = %s, '%(self.memoryNum, self.screenValue,self.memoryNum + self.screenValue))
-        self.screenValue = self.screenValue + self.memoryNum
-        self.updateScreen()
-        self.memoryNum = self.screenValue
-        self.screenValue = 0
-
-
-
-
-
-
+        pass
 
 
     def screenClear(self):
-        print('屏幕被清空')
-        self.memoryNum = 0
-        self.num_2 = 0
-        self.screenValue = 0
-        self.isNumAppendModel = True
-        self.updateScreen()
+        pass
 
     def updateScreen(self):
-        print('screenValue = ', self.screenValue)
-        self.lcdScreen.display(self.screenValue)
+        self.lcdScreen.display(self.resultValue)
 
 
 if __name__ == '__main__':
